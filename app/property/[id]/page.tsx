@@ -26,6 +26,7 @@ import {
   MessageSquare
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/utils/supabase";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -63,7 +64,6 @@ export default function PropertyPage({ params }: PageProps) {
     setInquiryStatus("submitting");
     
     try {
-      const { supabase } = await import('@/utils/supabase');
       if (!supabase) throw new Error("Supabase not configured");
 
       const { error } = await supabase.from('inquiries').insert({
@@ -243,7 +243,7 @@ export default function PropertyPage({ params }: PageProps) {
                         <MessageSquare className="w-4 h-4" /> INQUIRE NOW
                      </button>
                    ) : (
-                     <form onSubmit={handleInquirySubmit} className="space-y-4 animate-fade-in-up">
+                      <form onSubmit={handleInquirySubmit} className="space-y-4 animate-fade-in-up">
                         <input 
                           required
                           type="text"
@@ -252,30 +252,13 @@ export default function PropertyPage({ params }: PageProps) {
                           placeholder="Your Full Name"
                           className="w-full bg-black/20 border border-white/10 p-4 text-sm outline-none focus:border-gold transition-colors"
                         />
-                        <div className="grid grid-cols-2 gap-2">
-                          <input 
-                            required
-                            type="email"
-                            value={inquiryEmail}
-                            onChange={(e) => setInquiryEmail(e.target.value)}
-                            placeholder="Email"
-                            className="w-full bg-black/20 border border-white/10 p-4 text-sm outline-none focus:border-gold transition-colors"
-                          />
-                          <input 
-                            required
-                            type="tel"
-                            value={inquiryPhone}
-                            onChange={(e) => setInquiryPhone(e.target.value)}
-                            placeholder="Phone"
-                            className="w-full bg-black/20 border border-white/10 p-4 text-sm outline-none focus:border-gold transition-colors"
-                          />
-                        </div>
-                        <textarea 
+                        <input 
                           required
-                          value={inquiryMessage}
-                          onChange={(e) => setInquiryMessage(e.target.value)}
-                          placeholder="Tell us about your interest..."
-                          className="w-full bg-black/20 border border-white/10 p-4 text-sm outline-none focus:border-gold transition-colors resize-none h-24"
+                          type="tel"
+                          value={inquiryPhone}
+                          onChange={(e) => setInquiryPhone(e.target.value)}
+                          placeholder="Phone"
+                          className="w-full bg-black/20 border border-white/10 p-4 text-sm outline-none focus:border-gold transition-colors"
                         />
                         <div className="flex gap-2">
                           <button 
