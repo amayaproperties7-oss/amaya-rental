@@ -30,7 +30,8 @@ export const metadata: Metadata = {
   title: "Amaya Properties | Luxury Properties",
   description: "Curated selection of exceptional properties and architectural excellence.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo-icon.jpg?v=1",
+    apple: "/logo-icon.jpg?v=1",
   },
 };
 
