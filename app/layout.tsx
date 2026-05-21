@@ -29,6 +29,9 @@ function cn(...inputs: ClassValue[]) {
 export const metadata: Metadata = {
   title: "Amaya Properties | Luxury Properties",
   description: "Curated selection of exceptional properties and architectural excellence.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
