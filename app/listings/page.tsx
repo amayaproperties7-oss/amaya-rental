@@ -5,7 +5,7 @@ import { RevealSection } from "@/components/RevealSection";
 import { useProperties } from "@/context/PropertyContext";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Filter, ArrowLeft, X, MapPin } from "lucide-react";
+import { Search, Filter, ArrowLeft, X, MapPin, ShieldCheck } from "lucide-react";
 import { ALL_REGIONS, MUMBAI_LOCATIONS } from "@/constants/locations";
 
 export default function ListingsPage() {
@@ -155,6 +155,11 @@ export default function ListingsPage() {
                   <div className="absolute top-6 left-6 px-4 py-2 bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold tracking-widest uppercase">
                     {prop.listingType}
                   </div>
+                  {prop.isInsured && (
+                    <div className="absolute top-6 right-6 px-4 py-2 bg-gold/90 backdrop-blur-md border border-gold/20 text-black text-[9px] font-bold tracking-widest uppercase flex items-center gap-1.5 shadow-[0_0_15px_rgba(198,167,94,0.3)]">
+                      <ShieldCheck className="w-3.5 h-3.5" /> INSURED
+                    </div>
+                  )}
                   <div className="absolute bottom-0 left-0 w-full p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-black to-transparent">
                      <button className="w-full py-4 bg-gold text-black text-[10px] font-bold tracking-widest">VIEW DETAILS</button>
                   </div>

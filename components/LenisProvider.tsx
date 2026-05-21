@@ -12,7 +12,7 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
       wheelMultiplier: 1,
       touchMultiplier: 2,
     }}>
-      {children}
+      {children as any}
     </ReactLenis>
   );
 }

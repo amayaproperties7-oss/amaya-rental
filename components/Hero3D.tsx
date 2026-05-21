@@ -110,8 +110,10 @@ export function Hero3D() {
               <span className="inline-block">PROPERTIES</span>
             </span>
           </h1>
-          <p className="text-[12px] md:text-xl tracking-[0.3em] font-light text-white/60 uppercase text-center mb-10 max-w-[80%]">
-            Architectural Excellence & Timeless Design
+          <p className="text-[10px] md:text-lg tracking-[0.3em] font-light text-white/60 uppercase text-center mb-10 max-w-[90%] flex flex-wrap items-center justify-center gap-y-2 gap-x-4">
+            <span className="text-gold font-bold">India's First Insured Properties</span>
+            <span className="hidden md:inline text-white/20">•</span>
+            <span>Architectural Excellence & Timeless Design</span>
           </p>
           <Link href="/listings" className="pointer-events-auto px-8 md:px-10 py-3 md:py-4 bg-white/5 backdrop-blur-sm border border-white/20 text-white text-[10px] font-bold tracking-[0.4em] hover:bg-gold hover:border-gold hover:text-black transition-all">
             EXPLORE PROPERTIES

@@ -1,10 +1,19 @@
-// https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require('eslint/config');
-const expoConfig = require('eslint-config-expo/flat');
+const { FlatCompat } = require("@eslint/eslintrc");
+const path = require("path");
+const { fileURLToPath } = require("url");
 
-module.exports = defineConfig([
-  expoConfig,
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+module.exports = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
-    ignores: ['dist/*'],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "react/no-unescaped-entities": "warn",
+    },
+    ignores: [".next/*", "dist/*"],
   },
-]);
+];

@@ -107,10 +107,12 @@ export default function PropertyDetailScreen() {
           <View style={styles.titleRow}>
             <View style={styles.titleCol}>
               <View style={styles.badgesContainer}>
-                 <View style={styles.detailBadgeWrap}>
-                    <Ionicons name="shield-checkmark" size={14} color="#FFFFFF" />
-                    <Text style={styles.detailBadgeText}>Insured & Trusted</Text>
-                 </View>
+                  {property.isInsured && (
+                    <View style={styles.detailBadgeWrap}>
+                       <Ionicons name="shield-checkmark" size={14} color="#FFFFFF" />
+                       <Text style={styles.detailBadgeText}>Insured & Trusted</Text>
+                    </View>
+                  )}
                  <View style={styles.detailBadgeWrapGold}>
                     <Ionicons name="star" size={12} color="#000000" />
                     <Text style={styles.detailBadgeTextGold}>First Time in India</Text>

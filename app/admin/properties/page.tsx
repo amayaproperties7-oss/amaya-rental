@@ -89,6 +89,9 @@ export default function AdminPropertiesPage() {
                     {prop.isFeatured && (
                       <div className="px-4 py-2 bg-white text-black text-[9px] tracking-widest uppercase font-bold border border-gold shadow-[0_0_10px_rgba(212,175,55,0.3)]">FEATURED</div>
                     )}
+                    {prop.isInsured && (
+                      <div className="px-4 py-2 bg-gold text-black text-[9px] tracking-widest uppercase font-bold border border-gold shadow-[0_0_10px_rgba(198,167,94,0.3)]">INSURED</div>
+                    )}
                  </div>
               </div>
 
@@ -96,9 +99,9 @@ export default function AdminPropertiesPage() {
                  <Link href={`/property/${prop.id}`} className="flex-1 md:flex-none p-4 bg-white/5 border border-white/10 hover:border-white transition-colors rounded-sm flex items-center justify-center">
                     <ExternalLink className="w-4 h-4" />
                  </Link>
-                 <button className="flex-1 md:flex-none p-4 bg-white/5 border border-white/10 hover:border-gold transition-colors rounded-sm flex items-center justify-center">
+                 <Link href={`/admin/properties/edit/${prop.id}`} className="flex-1 md:flex-none p-4 bg-white/5 border border-white/10 hover:border-gold transition-colors rounded-sm flex items-center justify-center">
                     <Edit3 className="w-4 h-4" />
-                 </button>
+                 </Link>
                  <button 
                   onClick={() => deleteProperty(prop.id)}
                   className="flex-1 md:flex-none p-4 bg-red-500/10 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all rounded-sm flex items-center justify-center"

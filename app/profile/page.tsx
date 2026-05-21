@@ -24,7 +24,7 @@ import Link from "next/link";
 
 export default function ProfilePage() {
   const { user, signOut, isLoading: authLoading } = useAuth();
-  const { properties, isLoading: propsLoading } = useProperties();
+  const { properties } = useProperties();
   const router = useRouter();
   
   const [inquiries, setInquiries] = useState<any[]>([]);
@@ -162,7 +162,7 @@ export default function ProfilePage() {
             {inquiries.length === 0 ? (
               <RevealSection delay={0.4} className="py-20 text-center border border-dashed border-white/10 rounded-sm">
                 <Building2 className="w-12 h-12 text-white/10 mx-auto mb-6" />
-                <p className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-bold">You haven't made any inquiries yet.</p>
+                <p className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-bold">You haven&apos;t made any inquiries yet.</p>
                 <Link href="/listings" className="mt-8 inline-block px-10 py-4 bg-gold text-black text-[10px] font-bold tracking-[0.4em] hover:bg-white transition-all">
                   START EXPLORING
                 </Link>
@@ -211,7 +211,7 @@ export default function ProfilePage() {
                           </div>
 
                           <div className="bg-black/20 p-4 rounded-sm italic text-sm text-white/60 line-clamp-2">
-                            "{inquiry.message}"
+                            &quot;{inquiry.message}&quot;
                           </div>
 
                           <div className="flex items-center justify-between pt-2">

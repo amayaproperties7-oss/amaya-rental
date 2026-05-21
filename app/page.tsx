@@ -6,7 +6,7 @@ import { ParallaxLayer } from "@/components/ParallaxLayer";
 import { useProperties } from "@/context/PropertyContext";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function HomePage() {
   const { properties } = useProperties();
@@ -27,8 +27,8 @@ export default function HomePage() {
       {/* 3. Curated Selection */}
       <section className="py-20 md:py-40 px-6 md:px-20 bg-background">
         <RevealSection className="text-center mb-12 md:mb-20 space-y-4">
-           <h2 className="text-[10px] tracking-[0.6em] text-white/40 uppercase">Curated Selection</h2>
-           <h3 className="text-3xl md:text-5xl font-serif">Exceptional Offerings</h3>
+           <h2 className="text-[10px] tracking-[0.6em] text-gold font-bold uppercase">Curated Insured Estates</h2>
+           <h3 className="text-3xl md:text-5xl font-serif">India's First Insured Property Collection</h3>
         </RevealSection>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -45,6 +45,11 @@ export default function HomePage() {
                   <div className="absolute top-6 right-6 px-4 py-2 bg-gold text-black text-[10px] font-bold tracking-widest">
                     {prop.price}
                   </div>
+                  {prop.isInsured && (
+                    <div className="absolute top-6 left-6 px-3 py-1.5 bg-black/60 backdrop-blur-md border border-gold/30 text-gold text-[8px] font-bold tracking-[0.2em] uppercase flex items-center gap-1 shadow-lg">
+                      <ShieldCheck className="w-3 h-3 text-gold" /> INSURED
+                    </div>
+                  )}
                 </div>
                 <h4 className="text-2xl font-serif mb-2">{prop.projectName}</h4>
                 <p className="text-[10px] tracking-[0.3em] text-white/40 uppercase">{prop.location}</p>
@@ -64,7 +69,7 @@ export default function HomePage() {
          />
          <RevealSection className="relative z-10 text-center space-y-8 md:space-y-10 px-6">
             <h3 className="text-3xl md:text-7xl font-serif max-w-4xl leading-tight">
-              A legacy of trust in every <br className="hidden md:block"/> <span className="text-gold italic">unforgettable</span> view.
+              A legacy of trust. India's first <br className="hidden md:block"/> fully <span className="text-gold italic">insured</span> luxury estates.
             </h3>
             <Link href="/listings">
               <button className="px-8 md:px-10 py-3 md:py-4 bg-white text-black text-[10px] md:text-[12px] font-bold tracking-[0.4em] hover:bg-gold transition-colors">
@@ -77,8 +82,8 @@ export default function HomePage() {
       {/* 5. Browse by Collection */}
       <section className="py-20 md:py-40 px-6 md:px-20 bg-surface">
         <RevealSection className="mb-12 md:mb-20">
-           <h2 className="text-[10px] tracking-[0.6em] text-white/40 uppercase mb-4">The Portfolio</h2>
-           <h3 className="text-3xl md:text-4xl font-serif">Browse by Collection</h3>
+           <h2 className="text-[10px] tracking-[0.6em] text-gold uppercase mb-4 font-bold">The Premium Portfolio</h2>
+           <h3 className="text-3xl md:text-4xl font-serif">Browse Our Insured Portfolio</h3>
         </RevealSection>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
@@ -92,7 +97,12 @@ export default function HomePage() {
                    className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
                  />
                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500" />
-                 <div className="absolute bottom-10 left-10 space-y-2">
+                 <div className="absolute bottom-10 left-10 space-y-2 flex flex-col items-start">
+                    {prop.isInsured && (
+                      <span className="inline-flex items-center gap-1 px-3 py-1 bg-gold text-black text-[8px] font-bold tracking-widest uppercase mb-2 shadow-[0_0_15px_rgba(198,167,94,0.4)]">
+                        <ShieldCheck className="w-3 h-3" /> INSURED & TRUSTED
+                      </span>
+                    )}
                     <h4 className="text-3xl font-serif">{prop.projectName}</h4>
                     <p className="text-[10px] tracking-[0.3em] text-white/60 uppercase">{prop.bhkType} • {prop.location}</p>
                  </div>

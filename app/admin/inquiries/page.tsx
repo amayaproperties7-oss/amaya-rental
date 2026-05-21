@@ -8,8 +8,23 @@ import { supabase } from "@/utils/supabase";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
+interface Inquiry {
+  id: string;
+  user_name: string;
+  user_email: string;
+  user_phone?: string;
+  created_at: string;
+  message: string;
+  property_id: string;
+  status: string;
+  properties?: {
+    project_name: string;
+    location: string;
+  };
+}
+
 export default function AdminInquiriesPage() {
-  const [inquiries, setInquiries] = useState<any[]>([]);
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
@@ -107,7 +122,7 @@ export default function AdminInquiriesPage() {
                   </div>
                   
                   <div className="bg-black/20 p-4 border border-white/5 rounded-sm">
-                    <p className="text-white/80 font-light italic">"{inquiry.message}"</p>
+                    <p className="text-white/80 font-light italic">&quot;{inquiry.message}&quot;</p>
                   </div>
                   
                   <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-white/60">

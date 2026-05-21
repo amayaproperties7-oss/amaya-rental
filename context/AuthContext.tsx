@@ -109,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     checkUserSession();
 
-    const { data: authListener } = supabase?.auth.onAuthStateChange(async (event, session) => {
+    const { data: authListener } = supabase?.auth.onAuthStateChange(async (event: string, session: any) => {
       console.log(`Auth Event Triggered: ${event}`, session?.user?.email);
       
       if (event === 'SIGNED_IN' && session) {

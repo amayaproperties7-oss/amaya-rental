@@ -132,9 +132,14 @@ export default function PropertyPage({ params }: PageProps) {
         
         <div className="absolute bottom-20 left-10 md:left-20 max-w-4xl">
           <RevealSection className="space-y-6">
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <span className="px-4 py-1 bg-gold text-black text-[10px] font-bold tracking-widest uppercase">Premium Property</span>
               <span className="px-4 py-1 bg-white/10 backdrop-blur-md text-white text-[10px] font-bold tracking-widest uppercase">{property.listingType}</span>
+              {property.isInsured && (
+                <span className="px-4 py-1 bg-white text-black text-[10px] font-bold tracking-widest uppercase flex items-center gap-1.5 border border-gold/30 shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                  <ShieldCheck className="w-3.5 h-3.5 text-gold" /> INSURED & TRUSTED
+                </span>
+              )}
             </div>
             <h1 className="text-5xl md:text-8xl font-serif leading-none tracking-tighter">{property.projectName}</h1>
             <div className="flex items-center gap-4 text-white/60 text-lg">
@@ -205,6 +210,16 @@ export default function PropertyPage({ params }: PageProps) {
                 <div className="text-[10px] tracking-[0.3em] text-white/40 font-bold uppercase">Starting Price</div>
                 <div className="text-4xl font-bold text-gold">{property.price}</div>
               </div>
+
+              {property.isInsured && (
+                <div className="p-4 bg-gold/5 border border-gold/20 rounded-sm flex items-center gap-4">
+                  <ShieldCheck className="w-6 h-6 text-gold shrink-0" />
+                  <div>
+                    <div className="text-[9px] tracking-widest text-gold uppercase font-bold">INSURED & TRUSTED ESTATE</div>
+                    <div className="text-[11px] text-white/60">Fully verified and insured by AMAYA Properties.</div>
+                  </div>
+                </div>
+              )}
 
               <div className="h-[1px] bg-white/10" />
 

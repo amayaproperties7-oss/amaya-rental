@@ -2,11 +2,11 @@
 
 import { useEffect, useState, useRef } from "react";
 import { RevealSection } from "@/components/RevealSection";
-import { ArrowLeft, Calendar, User, MapPin, Clock, CheckCircle, Scan, X, Phone } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Scan, X, Phone } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useVisits, VisitRecord } from "@/context/VisitContext";
+import { useVisits } from "@/context/VisitContext";
 
 export default function AdminEventsPage() {
   const { scheduledVisits, isLoading: visitsLoading } = useVisits();
@@ -152,7 +152,7 @@ export default function AdminEventsPage() {
           <div className="mt-12 text-center max-w-md">
              <h2 className="text-2xl font-serif mb-4">ADMINISTRATIVE SCANNER</h2>
              <p className="text-white/40 text-[10px] tracking-[0.3em] leading-relaxed uppercase font-bold">
-               Position the guest's digital check-in code within the frame to verify their reservation status.
+               Position the guest&apos;s digital check-in code within the frame to verify their reservation status.
              </p>
           </div>
         </div>

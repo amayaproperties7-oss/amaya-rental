@@ -1,15 +1,24 @@
 "use client";
 
 import { useProperties } from "@/context/PropertyContext";
-
-import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Save, Image as ImageIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 
-export default function AddPropertyPage() {
-  const { addProperty } = useProperties();
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default function EditPropertyPage({ params }: PageProps) {
+  const resolvedParams = use(params);
+  const { properties, updateProperty, isLoading } = useProperties();
+  const { user, isLoading: authLoading } = useAuth();
   const router = useRouter();
+
+  const ADMIN_EMAIL = "amayaproperties7@gmail.com";
+
   const [formData, setFormData] = useState({
     projectName: "",
     region: "Mumbai",
@@ -22,24 +31,94 @@ export default function AddPropertyPage() {
     projectStatus: "Ready to Move",
     developerName: "",
     description: "",
-    imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000",
+    imageUrl: "",
     isFeatured: false,
     isInsured: false
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isPropertyFound, setIsPropertyFound] = useState<boolean | null>(null);
+
+  // Authenticate admin user
+  useEffect(() => {
+    if (!authLoading && (!user || user.email !== ADMIN_EMAIL)) {
+      router.push("/admin/login");
+    }
+  }, [user, authLoading, router]);
+
+  // Load property details
+  useEffect(() => {
+    if (isLoading) return;
+
+    const prop = properties.find((p) => p.id === resolvedParams.id);
+    if (prop) {
+      setFormData({
+        projectName: prop.projectName || "",
+        region: prop.region || "Mumbai",
+        location: prop.location || "",
+        price: prop.price || "",
+        priceNumeric: prop.priceNumeric || 0,
+        listingType: prop.listingType || "Sale",
+        bhkType: prop.bhkType || "3 BHK",
+        area: prop.area || "",
+        projectStatus: prop.projectStatus || "Ready to Move",
+        developerName: prop.developerName || "",
+        description: prop.description || "",
+        imageUrl: prop.images?.[0] || "",
+        isFeatured: !!prop.isFeatured,
+        isInsured: !!prop.isInsured
+      });
+      setIsPropertyFound(true);
+    } else {
+      setIsPropertyFound(false);
+    }
+  }, [resolvedParams.id, properties, isLoading]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newProperty = {
-      ...formData,
-      id: Date.now().toString(),
-      images: [formData.imageUrl],
+    const updatedProperty = {
+      id: resolvedParams.id,
+      projectName: formData.projectName,
+      region: formData.region,
+      location: formData.location,
+      price: formData.price,
       priceNumeric: parseInt(formData.price.replace(/[^0-9]/g, "")) || 0,
+      listingType: formData.listingType,
+      bhkType: formData.bhkType,
+      area: formData.area,
+      projectStatus: formData.projectStatus,
+      developerName: formData.developerName,
+      description: formData.description,
+      images: [formData.imageUrl],
       isFeatured: formData.isFeatured,
       isInsured: formData.isInsured
     };
-    addProperty(newProperty);
+    
+    await updateProperty(updatedProperty);
     router.push("/admin/properties");
   };
+
+  if (authLoading || isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-8 h-8 text-gold animate-spin" />
+        <p className="text-[10px] tracking-[0.4em] text-white/40 uppercase font-bold">Curating Experience...</p>
+      </div>
+    );
+  }
+
+  if (isPropertyFound === false) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-6 px-6">
+        <h1 className="text-3xl font-serif text-white tracking-widest text-center">PROPERTY NOT FOUND</h1>
+        <p className="text-[10px] tracking-[0.2em] text-white/40 uppercase text-center max-w-md">
+          The property listing you are attempting to edit could not be found or has been removed.
+        </p>
+        <Link href="/admin/properties" className="inline-flex items-center gap-2 text-[10px] tracking-widest text-gold hover:text-white transition-colors border border-gold/20 px-6 py-3 bg-gold/5 uppercase font-bold rounded-sm">
+          <ArrowLeft className="w-3 h-3" /> Back to Inventory
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-20 px-6 md:px-20">
@@ -49,8 +128,8 @@ export default function AddPropertyPage() {
         </Link>
 
         <div className="mb-12">
-          <h1 className="text-4xl font-serif tracking-widest mb-2">LIST NEW PROPERTY</h1>
-          <p className="text-[10px] tracking-[0.5em] text-gold uppercase font-bold">Define Architectural Excellence</p>
+          <h1 className="text-4xl font-serif tracking-widest mb-2">EDIT PROPERTY</h1>
+          <p className="text-[10px] tracking-[0.5em] text-gold uppercase font-bold">Refine Architectural Excellence</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-12">
@@ -180,11 +259,11 @@ export default function AddPropertyPage() {
                <label className="text-[9px] tracking-widest text-white/40 uppercase font-bold">Property Portrait (JPEG/PNG)</label>
                <div className="relative group">
                   <div className={`w-full aspect-video border-2 border-dashed transition-all flex flex-col items-center justify-center gap-4 rounded-sm overflow-hidden ${
-                    formData.imageUrl.startsWith("http") 
+                    formData.imageUrl.startsWith("http") || formData.imageUrl.startsWith("data:")
                     ? "border-white/5 bg-black/20" 
                     : "border-gold/30 bg-gold/5"
                   }`}>
-                     {formData.imageUrl && !formData.imageUrl.startsWith("http") ? (
+                     {formData.imageUrl ? (
                        <div className="relative w-full h-full">
                          <img src={formData.imageUrl} alt="Preview" className="w-full h-full object-cover" />
                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -232,7 +311,7 @@ export default function AddPropertyPage() {
                type="submit"
                className="flex-1 flex items-center justify-center gap-4 py-6 bg-gold text-black text-[10px] font-bold tracking-[0.5em] hover:bg-white transition-all rounded-sm shadow-xl shadow-gold/10"
              >
-                <Save className="w-4 h-4" /> PUBLISH LISTING
+                <Save className="w-4 h-4" /> SAVE CHANGES
              </button>
              <button 
                type="button"

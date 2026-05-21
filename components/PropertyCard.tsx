@@ -23,6 +23,7 @@ export interface PropertyData {
   listingUpdatedDate?: string;
   agentName?: string;
   agentContact?: string;
+  isInsured?: boolean;
 }
 
 interface PropertyCardProps {
@@ -63,10 +64,12 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <Image source={{ uri: (property.images && property.images.length > 0) ? property.images[0] : '' }} style={styles.image} />
         
         {/* Insured & Trusted Badge */}
-        <View style={styles.verifiedBadge}>
-          <IconSymbol name="shield.checkerboard" size={16} color="#000000" />
-          <Text style={styles.verifiedText}>Insured & Trusted</Text>
-        </View>
+        {property.isInsured && (
+          <View style={styles.verifiedBadge}>
+            <IconSymbol name="shield.checkerboard" size={16} color="#000000" />
+            <Text style={styles.verifiedText}>Insured & Trusted</Text>
+          </View>
+        )}
 
         <TouchableOpacity 
           style={styles.heartOverlay} 

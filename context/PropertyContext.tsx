@@ -23,6 +23,7 @@ export interface Property {
   agentName?: string;
   agentContact?: string;
   isFeatured?: boolean;
+  isInsured?: boolean;
 }
 
 interface PropertyContextType {
@@ -50,6 +51,7 @@ const mapFromDB = (db: any): Property => ({
   description: db.description || "",
   images: db.image_url ? [db.image_url] : [],
   isFeatured: db.is_featured || false,
+  isInsured: db.is_insured || false,
 });
 
 const mapToDB = (prop: Property): any => ({
@@ -67,6 +69,7 @@ const mapToDB = (prop: Property): any => ({
   description: prop.description,
   image_url: prop.images?.[0] || "",
   is_featured: prop.isFeatured || false,
+  is_insured: prop.isInsured || false,
 });
 
 export function PropertyProvider({ children }: { children: ReactNode }) {

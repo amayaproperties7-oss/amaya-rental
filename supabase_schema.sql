@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS properties (
   description TEXT,
   image_url TEXT,
   is_featured BOOLEAN DEFAULT FALSE,
+  is_insured BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
 );
 

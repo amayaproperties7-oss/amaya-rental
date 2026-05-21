@@ -22,7 +22,7 @@ const serif = Playfair_Display({
   variable: "--font-serif",
 });
 
-export function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 

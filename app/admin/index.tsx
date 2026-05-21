@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import { useProperties } from '@/context/PropertyContext';
@@ -172,7 +171,7 @@ export default function AdminDashboard() {
   );
 }
 
-function StatCard({ title, value, icon, color }: any) {
+function StatCard({ title, value, icon, color }: { title: string, value: string, icon: any, color: string }) {
   return (
     <Animated.View entering={FadeInUp.duration(600)} style={styles.statCard}>
       <View style={[styles.statIconContainer, { backgroundColor: color }]}>
@@ -184,7 +183,7 @@ function StatCard({ title, value, icon, color }: any) {
   );
 }
 
-function ActivityItem({ title, sub, time, icon }: any) {
+function ActivityItem({ title, sub, time, icon }: { title: string, sub: string, time: string, icon: any }) {
   return (
     <View style={styles.activityItem}>
       <View style={styles.activityIcon}>
