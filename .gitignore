@@ -43,3 +43,4 @@ app-example
 /android
 .next/
 .vercel/
+out/

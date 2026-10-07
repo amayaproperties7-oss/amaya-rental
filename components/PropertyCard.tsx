@@ -56,20 +56,20 @@ export function PropertyCard({ property }: PropertyCardProps) {
     }
   };
 
-  const priceDisplay = property.listingType === 'Rent' ? `${property.price} / month` : property.price;
+  const priceDisplay = property.price?.includes('/ mo') || property.price?.includes('/ month') 
+    ? property.price 
+    : `${property.price} / mo`;
 
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.9} onPress={handlePress}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: (property.images && property.images.length > 0) ? property.images[0] : '' }} style={styles.image} />
         
-        {/* Insured & Trusted Badge */}
-        {property.isInsured && (
-          <View style={styles.verifiedBadge}>
-            <IconSymbol name="shield.checkerboard" size={16} color="#000000" />
-            <Text style={styles.verifiedText}>Insured & Trusted</Text>
-          </View>
-        )}
+        {/* For Rent Badge */}
+        <View style={styles.verifiedBadge}>
+          <IconSymbol name="shield.checkerboard" size={16} color="#000000" />
+          <Text style={styles.verifiedText}>FOR RENT • Insured</Text>
+        </View>
 
         <TouchableOpacity 
           style={styles.heartOverlay} 
@@ -102,7 +102,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <View style={styles.metaRow}>
           <Text style={styles.metaText}>{property.area}</Text>
           <Text style={styles.metaDot}>•</Text>
-          <Text style={styles.metaText}>{property.projectStatus}</Text>
+          <Text style={styles.metaText}>{property.projectStatus || "Immediate Move-in"}</Text>
         </View>
 
         <View style={styles.divider} />
@@ -114,7 +114,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
             activeOpacity={0.8} 
             onPress={handlePress}
           >
-            <Text style={styles.primaryActionText}>View Details</Text>
+            <Text style={styles.primaryActionText}>View Flat</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
@@ -124,7 +124,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
             disabled={isInterested}
           >
             <Text style={[styles.secondaryActionText, isInterested && styles.secondaryActionTextInterested]}>
-              {isInterested ? "Interest Sent" : "Interested"}
+              {isInterested ? "Inquiry Sent" : "Inquire to Rent"}
             </Text>
           </TouchableOpacity>
         </View>

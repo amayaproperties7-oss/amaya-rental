@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useProperties } from "@/context/PropertyContext";
-import { RevealSection } from "@/components/RevealSection";
 import { supabase } from "@/utils/supabase";
 import { 
   User, 
@@ -13,11 +12,11 @@ import {
   Clock, 
   ArrowRight, 
   Building2, 
-  MessageSquare,
-  ChevronRight,
-  LogOut,
-  MapPin,
-  Calendar
+  MessageSquare, 
+  ChevronRight, 
+  LogOut, 
+  MapPin, 
+  Calendar 
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,14 +39,25 @@ export default function ProfilePage() {
 
     const fetchInquiries = async () => {
       try {
-        const { data, error } = await supabase
-          .from('inquiries')
-          .select('*')
-          .eq('user_email', user.email)
-          .order('created_at', { ascending: false });
+        if (supabase) {
+          const { data, error } = await supabase
+            .from('inquiries')
+            .select('*')
+            .eq('user_email', user.email)
+            .order('created_at', { ascending: false });
 
-        if (error) throw error;
-        setInquiries(data || []);
+          if (!error && data) {
+            setInquiries(data);
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Fallback to localStorage
+        if (typeof window !== 'undefined') {
+          const localInquiries = JSON.parse(localStorage.getItem('amaya_inquiries') || '[]');
+          setInquiries(localInquiries);
+        }
       } catch (err) {
         console.error("Error fetching inquiries:", err);
       } finally {
@@ -60,8 +70,8 @@ export default function ProfilePage() {
 
   if (authLoading || (loading && !inquiries.length && !user)) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-gold tracking-[0.5em] animate-pulse uppercase font-bold text-[10px]">AUTHENTICATING...</div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-xs font-bold text-[#666666]">Authenticating...</div>
       </div>
     );
   }
@@ -71,163 +81,173 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-40 md:pt-32 px-6 md:px-20">
-      <div className="max-w-7xl mx-auto">
-        
+    <div className="min-h-screen bg-white text-[#111111] pt-8 pb-24">
+      <div className="container-custom">
         {/* Header Section */}
-        <RevealSection className="mb-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-7xl font-serif tracking-tighter">
-                Member <span className="text-gold italic">Profile</span>
-              </h1>
-              <p className="text-white/40 tracking-[0.3em] uppercase text-[10px] font-bold">
-                Exclusively managed for {user?.fullName || "Valued Client"}
-              </p>
-            </div>
-            <button 
-              onClick={() => signOut()}
-              className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 text-[10px] font-bold tracking-widest hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400 transition-all uppercase"
-            >
-              <LogOut className="w-3 h-3" /> Secure Logout
-            </button>
+        <div className="mb-10 pb-6 border-b border-[#EAEAEA] flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-1.5">
+            <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#666666]">
+              CLIENT PORTAL
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+              Member Profile
+            </h1>
+            <p className="text-xs sm:text-sm text-[#666666]">
+              Welcome back, <strong className="text-[#111111]">{user?.fullName || "Valued Client"}</strong>
+            </p>
           </div>
-        </RevealSection>
+          <button 
+            onClick={() => signOut()}
+            className="self-start md:self-auto flex items-center gap-2 px-5 py-2.5 bg-[#F5F5F7] border border-[#EAEAEA] text-xs font-bold text-[#111111] hover:bg-black hover:text-white rounded-xl transition-all"
+          >
+            <LogOut className="w-3.5 h-3.5" /> Sign Out
+          </button>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
           {/* Left Sidebar - User Info */}
-          <div className="lg:col-span-4 space-y-12">
-            <RevealSection delay={0.1} className="bg-surface border border-white/5 p-8 md:p-10 rounded-sm">
-              <div className="flex flex-col items-center text-center mb-10">
-                <div className="w-24 h-24 bg-gold/10 rounded-full flex items-center justify-center border border-gold/20 mb-6 shadow-[0_0_30px_rgba(212,175,55,0.1)]">
-                  <User className="w-10 h-10 text-gold" />
+          <div className="lg:col-span-4 space-y-6">
+            <div className="bg-white border border-[#EAEAEA] p-6 sm:p-8 rounded-2xl shadow-xs">
+              <div className="flex flex-col items-center text-center mb-6">
+                <div className="w-20 h-20 bg-[#111111] text-white rounded-full flex items-center justify-center font-bold text-2xl mb-4">
+                  {user?.fullName?.[0]?.toUpperCase() || <User className="w-8 h-8" />}
                 </div>
-                <h2 className="text-2xl font-serif mb-1">{user?.fullName || "Member"}</h2>
-                <span className="text-[9px] tracking-[0.3em] text-gold uppercase font-bold">{user?.userType || "Member"}</span>
+                <h2 className="text-lg font-bold text-[#111111]">{user?.fullName || "Member"}</h2>
+                <span className="text-[10px] tracking-wider uppercase font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full mt-1">
+                  {user?.userType || "Active Member"}
+                </span>
               </div>
 
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <label className="text-[8px] tracking-[0.4em] text-white/20 uppercase font-bold">Email Address</label>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <Mail className="w-4 h-4 text-gold/40" />
-                    <span className="text-sm font-medium">{user?.email}</span>
+              <div className="space-y-4 pt-4 border-t border-[#F0F0F0]">
+                <div>
+                  <label className="text-[10px] uppercase font-bold text-[#888888] block">Email</label>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#111111] mt-0.5">
+                    <Mail className="w-3.5 h-3.5 text-[#666666]" />
+                    <span className="truncate">{user?.email}</span>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[8px] tracking-[0.4em] text-white/20 uppercase font-bold">Phone Number</label>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <Phone className="w-4 h-4 text-gold/40" />
-                    <span className="text-sm font-medium">{user?.phone || "Not provided"}</span>
+                <div>
+                  <label className="text-[10px] uppercase font-bold text-[#888888] block">Phone</label>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#111111] mt-0.5">
+                    <Phone className="w-3.5 h-3.5 text-[#666666]" />
+                    <span>{user?.phone || "Not provided"}</span>
                   </div>
                 </div>
 
-                <div className="space-y-2 pt-4">
-                  <label className="text-[8px] tracking-[0.4em] text-white/20 uppercase font-bold">Member Since</label>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <Calendar className="w-4 h-4 text-gold/40" />
-                    <span className="text-sm font-medium">October 2024</span>
+                <div>
+                  <label className="text-[10px] uppercase font-bold text-[#888888] block">Status</label>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#111111] mt-0.5">
+                    <Calendar className="w-3.5 h-3.5 text-[#666666]" />
+                    <span>Verified Lease Member</span>
                   </div>
                 </div>
               </div>
-            </RevealSection>
+            </div>
 
-            <RevealSection delay={0.2} className="bg-gold/5 border border-gold/10 p-8 rounded-sm">
-               <h3 className="text-gold text-[10px] tracking-[0.3em] font-bold uppercase mb-4">Membership Perks</h3>
-               <ul className="space-y-3">
-                 {["Early Access to Off-Market", "Dedicated Portfolio Manager", "Priority Site Visits", "Exclusive Market Insights"].map((perk, i) => (
-                   <li key={i} className="flex items-center gap-3 text-[10px] text-white/60 tracking-wider">
-                     <div className="w-1 h-1 bg-gold rounded-full" /> {perk}
-                   </li>
-                 ))}
-               </ul>
-            </RevealSection>
+            <div className="bg-[#FAFAFA] border border-[#EAEAEA] p-6 rounded-2xl">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#111111] mb-3">
+                Member Benefits
+              </h3>
+              <ul className="space-y-2 text-xs text-[#555555]">
+                <li className="flex items-center gap-2">✓ Priority private property inspections</li>
+                <li className="flex items-center gap-2">✓ Zero paperwork fees on 1-year leases</li>
+                <li className="flex items-center gap-2">✓ Direct relationship manager support</li>
+              </ul>
+            </div>
           </div>
 
           {/* Right Content - Inquiries */}
-          <div className="lg:col-span-8 space-y-12">
-            <RevealSection delay={0.3} className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <MessageSquare className="w-4 h-4 text-gold" />
-                <h2 className="text-xl tracking-[0.2em] font-serif">Property Inquiries</h2>
-                <span className="bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[9px] font-bold text-white/40">{inquiries.length}</span>
+          <div className="lg:col-span-8 space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-4 h-4 text-[#111111]" />
+                <h2 className="text-lg font-bold text-[#111111]">Rental Inquiries</h2>
+                <span className="bg-[#F5F5F7] border border-[#EAEAEA] px-2.5 py-0.5 rounded-full text-xs font-bold text-[#111111]">
+                  {inquiries.length}
+                </span>
               </div>
-              <Link href="/listings" className="text-[9px] tracking-widest text-gold hover:text-white transition-colors uppercase font-bold flex items-center gap-2 group">
-                Browse More <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+              <Link 
+                href="/listings" 
+                className="text-xs font-bold text-[#111111] hover:underline flex items-center gap-1"
+              >
+                Browse More Rentals <ArrowRight className="w-3.5 h-3.5" />
               </Link>
-            </RevealSection>
+            </div>
 
             {inquiries.length === 0 ? (
-              <RevealSection delay={0.4} className="py-20 text-center border border-dashed border-white/10 rounded-sm">
-                <Building2 className="w-12 h-12 text-white/10 mx-auto mb-6" />
-                <p className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-bold">You haven&apos;t made any inquiries yet.</p>
-                <Link href="/listings" className="mt-8 inline-block px-10 py-4 bg-gold text-black text-[10px] font-bold tracking-[0.4em] hover:bg-white transition-all">
-                  START EXPLORING
+              <div className="py-16 text-center border border-dashed border-[#EAEAEA] rounded-2xl bg-[#FAFAFA]">
+                <Building2 className="w-10 h-10 text-[#CCCCCC] mx-auto mb-3" />
+                <p className="text-xs font-bold text-[#111111] mb-1">No rental inquiries submitted yet.</p>
+                <p className="text-xs text-[#666666] mb-4">Explore our listings and send an inquiry to book a viewing.</p>
+                <Link 
+                  href="/listings" 
+                  className="px-5 py-2.5 bg-[#111111] text-white text-xs font-bold rounded-xl hover:bg-black transition-colors"
+                >
+                  Explore Rentals
                 </Link>
-              </RevealSection>
+              </div>
             ) : (
-              <div className="space-y-6">
-                {inquiries.map((inquiry, i) => {
-                  const property = getPropertyData(inquiry.property_id);
+              <div className="space-y-4">
+                {inquiries.map((inquiry) => {
+                  const prop = getPropertyData(inquiry.property_id);
                   return (
-                    <RevealSection key={inquiry.id} delay={0.1 * i} className="group">
-                      <div className="bg-surface border border-white/5 p-6 md:p-8 flex flex-col md:flex-row gap-8 hover:border-gold/30 transition-colors">
-                        {/* Property Image Thumbnail */}
-                        <div className="relative w-full md:w-32 h-32 md:h-32 flex-shrink-0 bg-black/40 overflow-hidden rounded-sm">
-                          {property?.images?.[0] ? (
-                            <Image 
-                              src={property.images[0]} 
-                              alt={property.projectName} 
-                              fill 
-                              className="object-cover group-hover:scale-110 transition-transform duration-700"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <Building2 className="w-6 h-6 text-white/10" />
+                    <div 
+                      key={inquiry.id} 
+                      className="bg-white border border-[#EAEAEA] p-5 rounded-2xl flex flex-col sm:flex-row gap-5 hover:border-[#111111] transition-all shadow-xs"
+                    >
+                      <div className="relative w-full sm:w-28 h-24 rounded-xl overflow-hidden bg-[#F5F5F7] shrink-0">
+                        {prop?.images?.[0] ? (
+                          <Image 
+                            src={prop.images[0]} 
+                            alt={prop.projectName} 
+                            fill 
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Building2 className="w-6 h-6 text-[#CCCCCC]" />
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-sm font-bold text-[#111111]">
+                              {prop?.projectName || inquiry.properties?.project_name || "Rental Property"}
+                            </h3>
+                            <div className="flex items-center gap-1.5 text-xs text-[#666666] mt-0.5">
+                              <MapPin className="w-3 h-3 text-[#111111]" />
+                              <span>{prop?.location || inquiry.properties?.location || "Visakhapatnam"}</span>
                             </div>
+                          </div>
+                          <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            {inquiry.status || "Pending"}
+                          </span>
+                        </div>
+
+                        <p className="text-xs text-[#555555] bg-[#F9FAFB] p-2.5 rounded-lg border border-[#F0F0F0]">
+                          &quot;{inquiry.message}&quot;
+                        </p>
+
+                        <div className="flex items-center justify-between pt-1 text-[11px] text-[#888888]">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{new Date(inquiry.created_at || Date.now()).toLocaleDateString()}</span>
+                          </div>
+                          {prop && (
+                            <Link 
+                              href={`/property/${prop.id}`}
+                              className="font-bold text-[#111111] hover:underline flex items-center gap-1"
+                            >
+                              View Flat <ChevronRight className="w-3 h-3" />
+                            </Link>
                           )}
                         </div>
-
-                        {/* Inquiry Content */}
-                        <div className="flex-1 space-y-4">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="text-xl font-serif mb-1">{property?.projectName || "Unknown Property"}</h3>
-                              <div className="flex items-center gap-2 text-white/40 text-[9px] tracking-widest uppercase font-bold">
-                                <MapPin className="w-3 h-3" /> {property?.location || "Mumbai"}
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <div className={`px-3 py-1 text-[8px] font-bold tracking-widest uppercase rounded-sm border ${
-                                inquiry.status === 'pending' ? 'bg-amber-500/10 border-amber-500/20 text-amber-500' : 
-                                inquiry.status === 'completed' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' :
-                                'bg-white/5 border-white/10 text-white/40'
-                              }`}>
-                                {inquiry.status}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="bg-black/20 p-4 rounded-sm italic text-sm text-white/60 line-clamp-2">
-                            &quot;{inquiry.message}&quot;
-                          </div>
-
-                          <div className="flex items-center justify-between pt-2">
-                            <div className="flex items-center gap-4 text-[9px] tracking-widest text-white/20 uppercase font-bold">
-                              <Clock className="w-3 h-3" /> {new Date(inquiry.created_at).toLocaleDateString()}
-                            </div>
-                            <Link 
-                              href={property ? `/property/${property.id}` : '#'} 
-                              className="inline-flex items-center gap-2 text-gold text-[9px] tracking-widest uppercase font-bold hover:text-white transition-colors"
-                            >
-                              View Property <ChevronRight className="w-3 h-3" />
-                            </Link>
-                          </div>
-                        </div>
                       </div>
-                    </RevealSection>
+                    </div>
                   );
                 })}
               </div>

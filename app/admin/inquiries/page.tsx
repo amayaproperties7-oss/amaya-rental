@@ -127,7 +127,7 @@ export default function AdminInquiriesPage() {
                   
                   <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase text-white/60">
                     <Home className="w-3 h-3 text-gold" />
-                    Property: <span className="text-white font-bold">{inquiry.properties?.project_name || inquiry.property_id}</span>
+                    Rental Flat: <span className="text-white font-bold">{inquiry.properties?.project_name || inquiry.property_id}</span>
                   </div>
                 </div>
 

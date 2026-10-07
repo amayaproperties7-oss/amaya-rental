@@ -2,7 +2,8 @@
 
 import { RevealSection } from "@/components/RevealSection";
 import { useProperties } from "@/context/PropertyContext";
-import { LayoutDashboard, Home, Users, MessageSquare, Calendar, ChevronRight } from "lucide-react";
+import { useBlogs } from "@/context/BlogContext";
+import { LayoutDashboard, Home, Users, MessageSquare, Calendar, ChevronRight, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { useVisits } from "@/context/VisitContext";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ import { supabase } from "@/utils/supabase";
 
 export default function AdminPage() {
   const { properties } = useProperties();
+  const { blogs } = useBlogs();
   const { allUsers, user, isLoading } = useAuth();
   const { scheduledVisits } = useVisits();
   const router = useRouter();
@@ -51,21 +53,22 @@ export default function AdminPage() {
   }, []);
 
   const stats = [
-    { title: "LISTED PROPERTIES", value: properties.length, icon: Home, color: "bg-gold" },
+    { title: "LISTED RENTAL FLATS", value: properties.length, icon: Home, color: "bg-gold" },
     { title: "ACTIVE MEMBERS", value: allUsers.length, icon: Users, color: "bg-white/10" },
     { title: "TOTAL INQUIRIES", value: inquiriesCount, icon: MessageSquare, color: "bg-gold/80" },
     { title: "SITE VISITS", value: scheduledVisits.length, icon: Calendar, color: "bg-white/20" },
+    { title: "JOURNAL ENTRIES", value: blogs.length, icon: BookOpen, color: "bg-gold/40" },
   ];
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-20 px-6 md:px-20">
       <RevealSection className="mb-12">
         <h1 className="text-4xl font-serif tracking-widest mb-2">ADMIN TERMINAL</h1>
-        <p className="text-[10px] tracking-[0.5em] text-gold uppercase font-bold">Estate Management & Client Inquiries</p>
+        <p className="text-[10px] tracking-[0.5em] text-gold uppercase font-bold">Rental Estate Management & Client Inquiries</p>
       </RevealSection>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-20">
         {stats.map((stat, i) => (
           <div key={stat.title} className="bg-surface border border-white/5 p-10 rounded-sm hover:border-gold/20 transition-all group flex flex-col items-start gap-8">
             <RevealSection delay={i * 0.1} y={20}>
@@ -124,11 +127,13 @@ export default function AdminPage() {
         {/* Estate Operations */}
         <div className="space-y-8">
           <div>
-            <h2 className="text-[10px] tracking-[0.5em] text-white/40 uppercase font-bold mb-8">ESTATE OPERATIONS</h2>
+            <h2 className="text-[10px] tracking-[0.5em] text-white/40 uppercase font-bold mb-8">RENTAL OPERATIONS</h2>
             <div className="flex flex-col gap-4">
               {[
-                { label: "ADD NEW ESTATE", icon: Home, href: "/admin/properties/add", primary: true },
-                { label: "MANAGE INVENTORIES", icon: Home, href: "/admin/properties", primary: false },
+                { label: "ADD NEW RENTAL FLAT", icon: Home, href: "/admin/properties/add", primary: true },
+                { label: "MANAGE RENTAL INVENTORIES", icon: Home, href: "/admin/properties", primary: false },
+                { label: "MANAGE JOURNAL ENTRIES", icon: BookOpen, href: "/admin/blogs", primary: false },
+                { label: "ADD NEW JOURNAL ENTRY", icon: BookOpen, href: "/admin/blogs/add", primary: false },
                 { label: "MANAGE INQUIRIES", icon: MessageSquare, href: "/admin/inquiries", primary: false },
                 { label: "SITE VISITS & EVENTS", icon: Calendar, href: "/admin/events", primary: false },
                 { label: "REGISTERED CUSTOMERS", icon: Users, href: "/admin/users", primary: false }

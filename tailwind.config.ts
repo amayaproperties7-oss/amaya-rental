@@ -9,21 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0b0b0b",
-        foreground: "#ffffff",
-        gold: {
-          light: "#d4af37",
-          DEFAULT: "#C6A75E",
-          dark: "#aa8a39",
-        },
-        surface: "#111111",
+        background: "#ffffff",
+        foreground: "#111111",
+        surface: "#F9FAFB",
+        subtle: "#F3F4F6",
+        border: "#EAEAEA",
+        charcoal: "#1F2428",
+        muted: "#666666",
+        "muted-dark": "#333333",
+        accent: "#111111",
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "serif"],
-        sans: ["var(--font-sans)", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        serif: ["var(--font-serif)", "Playfair Display", "serif"],
       },
-      animation: {
-        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      maxWidth: {
+        container: "1440px",
+      },
+      borderRadius: {
+        card: "16px",
       },
     },
   },

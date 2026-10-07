@@ -3,55 +3,50 @@
 @tailwind utilities;
 
 :root {
-  --background: #0b0b0b;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #111111;
+  --surface: #f9fafb;
+  --border: #eaeaea;
+  --muted: #666666;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-sans), sans-serif;
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  color: #111111;
+  background: #ffffff;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
-}
-
-/* Custom Cursor (Optional but premium) */
-.custom-cursor {
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  mix-blend-mode: difference;
-  z-index: 9999;
-  transition: transform 0.1s ease-out;
-}
-
-/* Grain Overlay */
-.grain {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  z-index: 50;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Cinematic Typography */
-h1, h2, h3 {
-  font-family: var(--font-serif), serif;
+/* Responsive Container */
+.container-custom {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 3.5vw, 48px);
+  padding-right: clamp(16px, 3.5vw, 48px);
+}
+
+/* Hide scrollbar for category tabs while maintaining scrollability */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Clean typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #111111;
+  font-weight: 700;
   letter-spacing: -0.02em;
-}
-
-.text-gold {
-  color: #C6A75E;
-}
-
-.bg-gold {
-  background-color: #C6A75E;
 }
 
 /* Smooth Scrolling Tweaks */

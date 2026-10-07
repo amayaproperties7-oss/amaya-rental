@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { AuthProvider } from "@/context/AuthContext";
@@ -11,6 +11,7 @@ import { PropertyProvider } from "@/context/PropertyContext";
 import { VisitProvider } from "@/context/VisitContext";
 import { InterestProvider } from "@/context/InterestContext";
 import { SavedPropertiesProvider } from "@/context/SavedPropertiesContext";
+import { BlogProvider } from "@/context/BlogContext";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -27,11 +28,11 @@ function cn(...inputs: ClassValue[]) {
 }
 
 export const metadata: Metadata = {
-  title: "Amaya Properties | Luxury Properties",
-  description: "Curated selection of exceptional properties and architectural excellence.",
+  title: "Amaya Rental Amenities | Rent Furniture, Appliances & Home Essentials",
+  description: "Rent verified appliances, premium furniture, RO water purifiers, and home electronics across Visakhapatnam, Mumbai, and top Indian metros with free delivery & relocation.",
   icons: {
-    icon: "/logo-icon.jpg?v=1",
-    apple: "/logo-icon.jpg?v=1",
+    icon: "/logo-icon.jpg?v=2",
+    apple: "/logo-icon.jpg?v=2",
   },
 };
 
@@ -41,10 +42,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased selection:bg-gold selection:text-background",
+          "min-h-screen bg-white text-[#111111] font-sans antialiased selection:bg-[#111111] selection:text-white",
           sans.variable,
           serif.variable
         )}
@@ -52,36 +53,17 @@ export default function RootLayout({
         <LenisProvider>
           <AuthProvider>
             <PropertyProvider>
-              <VisitProvider>
-                <InterestProvider>
-                  <SavedPropertiesProvider>
-                    {/* Grain Overlay */}
-                    <div className="grain" />
-                    
-                    <Navbar />
-
-                    <main>{children}</main>
-
-                    {/* Footer */}
-                    <footer className="py-20 px-10 border-t border-white/5 bg-surface text-center flex flex-col items-center">
-                      <div className="relative w-64 h-32 mb-6">
-                          <Image 
-                            src="/assets/images/amaya-logo.jpg" 
-                            alt="Amaya Properties Logo" 
-                            fill 
-                            className="object-contain"
-                          />
-                      </div>
-                      <p className="text-white/40 text-sm max-w-md mx-auto mb-10">
-                        Dedicated to the pursuit of architectural excellence and the art of fine living.
-                      </p>
-                      <div className="text-[10px] tracking-[0.5em] text-white/20 uppercase">
-                        © 2026 Amaya Properties. All Rights Reserved.
-                      </div>
-                    </footer>
-                  </SavedPropertiesProvider>
-                </InterestProvider>
-              </VisitProvider>
+              <BlogProvider>
+                <VisitProvider>
+                  <InterestProvider>
+                    <SavedPropertiesProvider>
+                      <Navbar />
+                      <main className="min-h-screen w-full bg-white">{children}</main>
+                      <Footer />
+                    </SavedPropertiesProvider>
+                  </InterestProvider>
+                </VisitProvider>
+              </BlogProvider>
             </PropertyProvider>
           </AuthProvider>
         </LenisProvider>

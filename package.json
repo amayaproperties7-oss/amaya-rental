@@ -10,9 +10,17 @@
     "expo:start": "expo start",
     "expo:android": "expo start --android",
     "expo:ios": "expo start --ios",
-    "expo:web": "expo start --web"
+    "expo:web": "expo start --web",
+    "cap:sync": "npx cap sync",
+    "cap:open-android": "npx cap open android",
+    "cap:open-ios": "npx cap open ios",
+    "cap:build": "npm run build && npx cap sync"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/cli": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
+    "@capacitor/ios": "^8.3.4",
     "@expo/vector-icons": "^14.0.0",
     "@gsap/react": "^2.1.1",
     "@react-native-async-storage/async-storage": "^3.0.2",
@@ -21,8 +29,6 @@
     "@react-navigation/native": "^7.2.4",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.12.90",
-    "@studio-freight/hamo": "^0.6.33",
-    "@studio-freight/react-lenis": "^0.0.47",
     "@supabase/supabase-js": "^2.105.1",
     "clsx": "^2.1.1",
     "expo": "~52.0.0",

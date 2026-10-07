@@ -21,13 +21,17 @@ export function Hero3D() {
       if (!containerRef.current || !titleRef.current) return;
 
       // Initial reveal
-      gsap.from(titleRef.current.children, {
-        y: 100,
-        opacity: 0,
-        duration: 1.5,
-        stagger: 0.2,
-        ease: "power4.out",
-      });
+      gsap.fromTo(
+        titleRef.current.children,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power3.out",
+        }
+      );
 
       // Sticky title logic
       ScrollTrigger.create({
@@ -61,8 +65,8 @@ export function Hero3D() {
       <ParallaxLayer speed={120} className="absolute inset-0 z-0">
         <div className="relative h-screen w-full opacity-40 blur-sm">
           <Image
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2000"
-            alt="Luxury Background"
+            src="/assets/images/rental-hero-night.png"
+            alt="Luxury Rental Residences Skyline"
             fill
             className="object-cover"
             priority
@@ -72,28 +76,16 @@ export function Hero3D() {
 
       {/* Midground Layer (Main Image) */}
       <ParallaxLayer speed={60} className="absolute inset-0 z-10 flex items-center justify-center">
-        <div className="relative h-[80vh] w-[90%] md:w-[70%] hero-zoom overflow-hidden rounded-sm shadow-2xl border border-white/10">
+        <div className="relative h-[80vh] w-[92%] md:w-[75%] hero-zoom overflow-hidden rounded-sm shadow-2xl border border-white/10">
           <Image
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000"
-            alt="Main Property"
+            src="/assets/images/rental-hero-podium.png"
+            alt="Amaya Luxury Rental Flats"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
         </div>
-      </ParallaxLayer>
-
-      {/* Foreground Layer (Fast Parallax) */}
-      <ParallaxLayer speed={-80} className="absolute inset-0 z-30 pointer-events-none">
-         <div className="absolute top-[60%] right-[10%] w-64 h-80 rounded-sm overflow-hidden shadow-2xl border border-white/20 hidden md:block">
-            <Image
-              src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000"
-              alt="Luxury Architecture"
-              fill
-              className="object-cover"
-            />
-         </div>
       </ParallaxLayer>
 
       {/* Sticky Content */}
@@ -102,21 +94,21 @@ export function Hero3D() {
         className="absolute inset-0 z-20 flex flex-col items-center justify-start pt-[10vh] md:pt-[15vh] pointer-events-none w-full"
       >
         <div className="flex flex-col items-center justify-center text-center px-4 w-full">
-          <h1 className="text-5xl md:text-9xl font-serif font-light mb-4 tracking-tighter text-center leading-none">
+          <h1 className="text-4xl md:text-8xl font-serif font-light mb-4 tracking-tighter text-center leading-none">
             <span className="block overflow-hidden">
               <span className="inline-block">AMAYA</span>
             </span>
-            <span className="block overflow-hidden text-gold">
-              <span className="inline-block">PROPERTIES</span>
+            <span className="block overflow-hidden text-gold text-3xl md:text-6xl mt-2 tracking-normal">
+              <span className="inline-block">RENTAL AMENITIES</span>
             </span>
           </h1>
           <p className="text-[10px] md:text-lg tracking-[0.3em] font-light text-white/60 uppercase text-center mb-10 max-w-[90%] flex flex-wrap items-center justify-center gap-y-2 gap-x-4">
-            <span className="text-gold font-bold">India's First Insured Properties</span>
+            <span className="text-gold font-bold">India&apos;s First Insured Rental Flats</span>
             <span className="hidden md:inline text-white/20">•</span>
-            <span>Architectural Excellence & Timeless Design</span>
+            <span>Curated Luxury Flats & Penthouses For Rent</span>
           </p>
           <Link href="/listings" className="pointer-events-auto px-8 md:px-10 py-3 md:py-4 bg-white/5 backdrop-blur-sm border border-white/20 text-white text-[10px] font-bold tracking-[0.4em] hover:bg-gold hover:border-gold hover:text-black transition-all">
-            EXPLORE PROPERTIES
+            EXPLORE RENTAL FLATS
           </Link>
         </div>
       </div>

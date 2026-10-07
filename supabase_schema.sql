@@ -111,3 +111,30 @@ BEGIN
     REFERENCES properties(id) 
     ON DELETE CASCADE;
 END $$;
+
+-- Create Blogs Table
+CREATE TABLE IF NOT EXISTS blogs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  content TEXT NOT NULL,
+  summary TEXT,
+  image_url TEXT,
+  category TEXT DEFAULT 'Real Estate',
+  author TEXT DEFAULT 'Amaya Admin',
+  is_published BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
+);
+
+-- Enable Row Level Security
+ALTER TABLE blogs ENABLE ROW LEVEL SECURITY;
+
+-- ==========================================
+-- Blogs Policies
+-- ==========================================
+CREATE POLICY "Allow public read access to blogs" 
+  ON blogs FOR SELECT USING (true);
+
+CREATE POLICY "Allow admin full access to blogs" 
+  ON blogs FOR ALL USING (is_admin());

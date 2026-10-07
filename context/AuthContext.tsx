@@ -35,7 +35,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    return {
+      user: null,
+      hasPreferences: false,
+      userPreferences: null,
+      signIn: async () => {},
+      signOut: async () => {},
+      completePreferences: async () => {},
+      isLoading: true,
+      allUsers: []
+    };
   }
   return context;
 }
@@ -60,14 +69,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         if (!supabase) return;
 
-        const { data: { session } } = await supabase.auth.getSession();
+        const sessionPromise = supabase.auth.getSession()
+          .then((res: any) => res)
+          .catch(() => ({ data: { session: null }, error: null }));
+
+        const timeoutPromise = new Promise<any>((resolve) =>
+          setTimeout(() => resolve({ data: { session: null }, error: null }), 1500)
+        );
+
+        const result = (await Promise.race([sessionPromise, timeoutPromise])) as any;
+        const session = result?.data?.session;
         
         if (session?.user) {
           const { data: profile } = await supabase
             .from('users')
             .select('*')
             .eq('id', session.user.id)
-            .single();
+            .single()
+            .catch(() => ({ data: null }));
 
           if (profile) {
             setUser({
@@ -78,29 +97,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               userType: profile.user_type,
             });
           } else {
-            setUser({
+            // Create user profile for new OAuth signups
+            const newProfile = {
               id: session.user.id,
               email: session.user.email || "",
-              fullName: session.user.user_metadata?.full_name || "MEMBER",
-              phone: "",
-              userType: session.user.email === "amayaproperties7@gmail.com" ? "Admin" : "Member",
+              full_name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || "MEMBER",
+              phone: session.user.user_metadata?.phone || "",
+              user_type: session.user.email === "amayaproperties7@gmail.com" ? "Admin" : "Member",
+            };
+
+            try {
+              await supabase
+                .from('users')
+                .insert(newProfile);
+            } catch {
+              // Silently handle
+            }
+
+            setUser({
+              id: newProfile.id,
+              email: newProfile.email,
+              fullName: newProfile.full_name,
+              phone: newProfile.phone,
+              userType: newProfile.user_type,
             });
           }
 
           // Only fetch all users if we have a session
-          const { data: users } = await supabase.from('users').select('*');
-          if (users) {
-            setAllUsers(users.map((u: any) => ({
-              id: u.id,
-              email: u.email,
-              fullName: u.full_name,
-              phone: u.phone,
-              userType: u.user_type,
-            })));
+          try {
+            const { data: users } = await supabase.from('users').select('*');
+            if (users) {
+              setAllUsers(users.map((u: any) => ({
+                id: u.id,
+                email: u.email,
+                fullName: u.full_name,
+                phone: u.phone,
+                userType: u.user_type,
+              })));
+            }
+          } catch {
+            // Silently handle
           }
         }
-      } catch (e) {
-        console.error('Failed to load user session', e);
+      } catch {
+        // Safe offline fallback
       } finally {
         setIsLoading(false);
         isChecking.current = false;

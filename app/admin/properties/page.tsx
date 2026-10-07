@@ -37,13 +37,13 @@ export default function AdminPropertiesPage() {
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12">
           <RevealSection>
-            <h1 className="text-4xl font-serif tracking-widest mb-2">MANAGE PROPERTIES</h1>
-            <p className="text-[10px] tracking-[0.5em] text-gold uppercase font-bold">Inventory Control & Listing Management</p>
+            <h1 className="text-4xl font-serif tracking-widest mb-2">MANAGE RENTAL FLATS</h1>
+            <p className="text-[10px] tracking-[0.5em] text-gold uppercase font-bold">Rental Inventory Control & Lease Listing Management</p>
           </RevealSection>
 
           <RevealSection delay={0.2}>
-            <Link href="/admin/properties/add" className="flex items-center gap-4 px-10 py-4 bg-gold text-black text-[10px] font-bold tracking-[0.4em] hover:bg-white transition-all rounded-sm">
-              <Plus className="w-4 h-4" /> ADD NEW PROPERTY
+            <Link href="/admin/properties/add" className="flex items-center gap-4 px-10 py-4 bg-gold text-black text-[10px] font-bold tracking-[0.4em] hover:bg-white transition-all rounded-sm uppercase">
+              <Plus className="w-4 h-4" /> ADD NEW RENTAL FLAT
             </Link>
           </RevealSection>
         </div>
@@ -83,6 +83,7 @@ export default function AdminPropertiesPage() {
                  </div>
                  
                  <div className="flex flex-wrap gap-4">
+                    <div className="px-4 py-2 bg-gold/10 text-[9px] tracking-widest uppercase font-bold text-gold border border-gold/20">FOR RENT</div>
                     <div className="px-4 py-2 bg-white/5 text-[9px] tracking-widest uppercase font-bold text-white/60">{prop.bhkType}</div>
                     <div className="px-4 py-2 bg-white/5 text-[9px] tracking-widest uppercase font-bold text-white/60">{prop.area}</div>
                     <div className="px-4 py-2 bg-gold/10 text-[9px] tracking-widest uppercase font-bold text-gold">{prop.price}</div>
