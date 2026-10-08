@@ -18,7 +18,7 @@ export interface RentalProduct {
 }
 
 export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
-  // 1. PACKAGES (1 BHK, 2 BHK, 3 BHK, Luxury Rental Package)
+  // 1. PACKAGES (1 BHK, 2 BHK, 3 BHK)
   {
     id: "pkg-1bhk",
     title: "1 BHK Essential Home Rental Package",
@@ -90,30 +90,6 @@ export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
     delivery: "Delivered & Installed in 72 hours",
     tag: "3 BHK Package",
     description: "Expansive 3 BHK rental package covering all three bedrooms, designer L-shaped sectional sofa, 4-seater dining table, smart television, and essential kitchen & laundry appliances."
-  },
-  {
-    id: "pkg-complete-house",
-    title: "Luxury Rental Package",
-    category: "Packages",
-    categorySlug: "packages",
-    price: "₹ 35,000 / mo",
-    priceNumeric: 35000,
-    originalPrice: "₹ 42,000 / mo",
-    deposit: "₹ 35,000",
-    rating: 5.0,
-    reviewsCount: 142,
-    images: [
-      "/assets/images/categories/pkg_complete_house.jpg"
-    ],
-    specs: [
-      { label: "Items Included", value: "Complete Bedrooms + Living Room Suite + Dining Set + Full Appliances Suite (Fridge, Washer, Smart TV, RO Water Purifier)" },
-      { label: "Ideal For", value: "Independent Villas, Penthouses & Full Homes" },
-      { label: "Tenure", value: "3 to 24 Months" }
-    ],
-    features: ["100% Turnkey Ready-to-Move", "Periodic Complimentary Deep Cleaning", "Dedicated Lease Concierge"],
-    delivery: "Delivered & Installed by certified team",
-    tag: "Luxury Package",
-    description: "All-in-one luxury rental package. Unpack your bags and start living with fully furnished bedrooms, luxury living lounge, 6-seater dining set, smart entertainment, and complete major home appliances."
   },
 
   // 2. WATER PURIFIERS
