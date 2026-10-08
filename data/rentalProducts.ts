@@ -18,16 +18,16 @@ export interface RentalProduct {
 }
 
 export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
-  // 1. PACKAGES (1 BHK, 2 BHK, 3 BHK, Complete House Packages)
+  // 1. PACKAGES (1 BHK, 2 BHK, 3 BHK, Luxury Rental Package)
   {
     id: "pkg-1bhk",
     title: "1 BHK Essential Home Rental Package",
     category: "Packages",
     categorySlug: "packages",
-    price: "₹ 1,899 / mo",
-    priceNumeric: 1899,
-    originalPrice: "₹ 2,499 / mo",
-    deposit: "₹ 2,500",
+    price: "₹ 7,500 / mo",
+    priceNumeric: 7500,
+    originalPrice: "₹ 9,500 / mo",
+    deposit: "₹ 7,500",
     rating: 4.9,
     reviewsCount: 312,
     images: [
@@ -48,10 +48,10 @@ export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
     title: "2 BHK Complete Home Rental Package",
     category: "Packages",
     categorySlug: "packages",
-    price: "₹ 2,799 / mo",
-    priceNumeric: 2799,
-    originalPrice: "₹ 3,699 / mo",
-    deposit: "₹ 3,500",
+    price: "₹ 15,000 / mo",
+    priceNumeric: 15000,
+    originalPrice: "₹ 18,500 / mo",
+    deposit: "₹ 15,000",
     rating: 4.9,
     reviewsCount: 248,
     images: [
@@ -72,10 +72,10 @@ export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
     title: "3 BHK Premium Home Rental Package",
     category: "Packages",
     categorySlug: "packages",
-    price: "₹ 3,899 / mo",
-    priceNumeric: 3899,
-    originalPrice: "₹ 4,999 / mo",
-    deposit: "₹ 4,500",
+    price: "₹ 25,000 / mo",
+    priceNumeric: 25000,
+    originalPrice: "₹ 30,000 / mo",
+    deposit: "₹ 25,000",
     rating: 4.9,
     reviewsCount: 176,
     images: [
@@ -93,13 +93,13 @@ export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
   },
   {
     id: "pkg-complete-house",
-    title: "Complete House Luxury Rental Package",
+    title: "Luxury Rental Package",
     category: "Packages",
     categorySlug: "packages",
-    price: "₹ 4,999 / mo",
-    priceNumeric: 4999,
-    originalPrice: "₹ 6,499 / mo",
-    deposit: "₹ 5,500",
+    price: "₹ 35,000 / mo",
+    priceNumeric: 35000,
+    originalPrice: "₹ 42,000 / mo",
+    deposit: "₹ 35,000",
     rating: 5.0,
     reviewsCount: 142,
     images: [
@@ -112,8 +112,8 @@ export const ALL_RENTAL_PRODUCTS: RentalProduct[] = [
     ],
     features: ["100% Turnkey Ready-to-Move", "Periodic Complimentary Deep Cleaning", "Dedicated Lease Concierge"],
     delivery: "Delivered & Installed by certified team",
-    tag: "Complete House",
-    description: "All-in-one complete house rental solution. Unpack your bags and start living with fully furnished bedrooms, luxury living lounge, 6-seater dining set, smart entertainment, and complete major home appliances."
+    tag: "Luxury Package",
+    description: "All-in-one luxury rental package. Unpack your bags and start living with fully furnished bedrooms, luxury living lounge, 6-seater dining set, smart entertainment, and complete major home appliances."
   },
 
   // 2. WATER PURIFIERS
